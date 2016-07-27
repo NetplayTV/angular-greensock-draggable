@@ -1,0 +1,21 @@
+{
+  "name": "@netplaytv/angular-greensock-draggable",
+  "version": "1.0.0",
+  "description": "todo",
+  "main": "src/draggable.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NetplayTV/angular-greensock-draggable.git"
+  },
+  "keywords": [
+    "Angular",
+    "Greensock",
+    "Draggable"
+  ],
+  "author": "NetplayTV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NetplayTV/angular-greensock-draggable/issues"
+  },
+  "homepage": "https://github.com/NetplayTV/angular-greensock-draggable#readme"
+}
