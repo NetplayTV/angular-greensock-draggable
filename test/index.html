@@ -18,23 +18,28 @@
 
     <div ng-controller="MainController as main">
 
-        <ng-greensock-draggable
-                type="x"
-                edge-resistance="10"
-                on-press="main.onPress()"
-                on-drag-start="main.onDragStart()"
-                on-drag="main.onDrag()"
-                on-drag-end="main.onDragEnd()">
-            <ul>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-                <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
-            </ul>
-        </ng-greensock-draggable>
+        <div class="container">
 
+
+            <ng-greensock-draggable
+                    type="x"
+                    edge-resistance="1"
+                    bounds="main.bounds2"
+                    throwProps="false"
+                    on-press="main.onPress()"
+                    on-drag-start="main.onDragStart()"
+                    on-drag="main.onDrag()"
+                    on-drag-end="main.onDragEnd()">
+                <ul>
+                    <li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>
+                    <!--<li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>-->
+                    <!--<li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>-->
+                    <!--<li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>-->
+                    <!--<li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>-->
+                    <!--<li><img class="image" src="http://www.hotel-r.net/im/hotel/fr/icone-1.png"/></li>-->
+                </ul>
+            </ng-greensock-draggable>
+        </div>
     </div>
 
 </body>

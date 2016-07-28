@@ -8,22 +8,8 @@ var app = angular.module('DemoApp', [
  */
 function MainController($scope) {
 
-    // /**
-    //  * DRAG event handler
-    //  */
-    // $scope.onDrag = function(value) {
-    //     $scope.currentRotation = value;
-    // }
-    //
-    // /**
-    //  * DRAG END event handler
-    //  */
-    // $scope.onDragEnd = function(value) {
-    //
-    //     $scope.currentRotation = value;
-    //     console.log ("DRAG_END", value)
-    // }
-
+    this.bounds1 = {minX:0, maxX: 100};
+    this.bounds2 = document.getElementsByClassName('container');
 }
 
 MainController.prototype.onPress = function() {
