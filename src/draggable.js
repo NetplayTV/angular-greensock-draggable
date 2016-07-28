@@ -10,7 +10,7 @@ module.component('ngGreensockDraggable', {
         //May be x | y | x,y | rotation | scroll | scrollTop | scrollLeft | top | left | top,left
         type: '@',
         edgeResistance: '@?',
-        bounds: '=?',
+        bounds: '<?',
         throwProps: '=?',
         onPress: '&?',
         onDragStart: '&?',
@@ -18,11 +18,11 @@ module.component('ngGreensockDraggable', {
         onDragEnd: '&?',
     },
     transclude: true,
+    controller: GreensockDraggableController,
     template: `
-<div class="draggable-container">
+<div class="draggable-container" style="position: absolute;">
     <div ng-transclude></div>
-</div>`,
-    controller: GreensockDraggableController
+</div>`
 });
 
 /**
@@ -44,11 +44,29 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
     console.log('$onChanges');
     console.log(changes);
     console.log(this.bounds)
+
+    //Update the draggable bounds
+    if (this._draggable) {
+        if ( changes.hasOwnProperty('bounds')) {
+            var currentBounds = changes.bounds.currentValue;
+            if ( currentBounds instanceof HTMLCollection) {
+                this._draggable.vars.bounds = currentBounds;
+            }else {
+                this._draggable.vars.bounds = {};
+                if (currentBounds.hasOwnProperty('minX')) {
+                    this._draggable.vars.bounds.minX = currentBounds.minX;
+                }
+                if (currentBounds.hasOwnProperty('maxX')) {
+                    this._draggable.vars.bounds.maxX = currentBounds.maxX;
+                }
+            }
+        }
+    }
 }
 GreensockDraggableController.prototype.$onInit = function () {
     console.log('$onInit');
 
-    Draggable.create(".draggable-container", {
+    Draggable.create('.draggable-container', {
         type: this.type,
         edgeResistance: this.edgeResistance,
         bounds: this.bounds,
@@ -64,7 +82,6 @@ GreensockDraggableController.prototype.$onInit = function () {
 }
 
 GreensockDraggableController.prototype._onPress = function() {
-
     if (this.onPress) {
         this.onPress.call();
     }
@@ -84,7 +101,7 @@ GreensockDraggableController.prototype._onDrag = function() {
 
 GreensockDraggableController.prototype._onDragEnd = function() {
 
-    // this._draggable.vars.bounds.maxX = 200;
+    console.log(this._draggable.vars);
     if (this.onDragEnd) {
         this.onDragEnd.call();
     }

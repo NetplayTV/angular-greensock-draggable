@@ -6,10 +6,19 @@ var app = angular.module('DemoApp', [
 /**
  * Main Controller
  */
-function MainController($scope) {
+function MainController($timeout) {
 
     this.bounds1 = {minX:0, maxX: 100};
     this.bounds2 = document.getElementsByClassName('container');
+
+    var self = this;
+    $timeout(function() {
+        self.bounds2 = {minX:0, maxX: 100};
+    }, 5000);
+
+    $timeout(function() {
+        self.bounds2 = document.getElementsByClassName('container');
+    }, 10000)
 }
 
 MainController.prototype.onPress = function() {

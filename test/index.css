@@ -8,20 +8,14 @@
     right: 0;
 }
 
-ng-greensock-draggable {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-
 .draggable-container {
     position: absolute;
 }
 ul {
     background: greenyellow;
     height: 10px;
+    margin: 0;
+    padding: 0;
 }
 
 li {
