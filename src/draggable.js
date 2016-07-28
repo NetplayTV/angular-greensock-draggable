@@ -6,7 +6,6 @@ var module = angular.module("ngGreensockDraggable", [])
 module.component('ngGreensockDraggable', {
     scope: {},
     bindings: {
-
         //May be x | y | x,y | rotation | scroll | scrollTop | scrollLeft | top | left | top,left
         type: '@',
         edgeResistance: '@?',
@@ -20,7 +19,7 @@ module.component('ngGreensockDraggable', {
     transclude: true,
     controller: GreensockDraggableController,
     template: `
-<div class="draggable-container" style="position: absolute;">
+<div class="draggableContainer" style="position: absolute;">
     <div ng-transclude></div>
 </div>`
 });
@@ -32,19 +31,37 @@ function GreensockDraggableController($element) {
 
     this.$element = $element;
 
+    this._$draggableContainer = null;
+
     this._initialMousedownEvent = {};
     this._initialDragMouseEvent = {};
-    this._currentDragMouseEvent = {};
+    this._currentPosition = {};
     this._draggable = null;
     this._dYThreshold = 20;
     this._chipToDrag = null;
 }
 
-GreensockDraggableController.prototype.$onChanges = function (changes) {
-    console.log('$onChanges');
-    console.log(changes);
-    console.log(this.bounds)
+GreensockDraggableController.prototype.$onInit = function () {
+    console.log('$onInit');
 
+    Draggable.create('.draggableContainer', {
+        type: this.type,
+        edgeResistance: this.edgeResistance,
+        bounds: this.bounds,
+        throwProps: this.throwProps,
+        onPress: this._onPress.bind(this),
+        onDragStart: this._onDragStart.bind(this),
+        onDrag: this._onDrag.bind(this),
+        onDragEnd: this._onDragEnd.bind(this)
+    });
+
+    this._$draggableContainer = this.$element[0].getElementsByClassName('draggableContainer');
+
+    console.log(this._draggableContainer);
+    this._draggable = Draggable.get('.draggableContainer');
+}
+
+GreensockDraggableController.prototype.$onChanges = function (changes) {
     //Update the draggable bounds
     if (this._draggable) {
         if ( changes.hasOwnProperty('bounds')) {
@@ -63,46 +80,70 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
         }
     }
 }
-GreensockDraggableController.prototype.$onInit = function () {
-    console.log('$onInit');
 
-    Draggable.create('.draggable-container', {
-        type: this.type,
-        edgeResistance: this.edgeResistance,
-        bounds: this.bounds,
-        throwProps: this.throwProps,
-        onPress: this._onPress.bind(this),
-        onDragStart: this._onDragStart.bind(this),
-        onDrag: this._onDrag.bind(this),
-        onDragEnd: this._onDragEnd.bind(this)
-    });
 
-    this._draggable = Draggable.get('.draggable-container')
-    // console.log(this._draggable);
-}
+GreensockDraggableController.prototype._onPress = function(e) {
 
-GreensockDraggableController.prototype._onPress = function() {
+    this._initialMousedownEvent = e;
+
     if (this.onPress) {
         this.onPress.call();
     }
 };
 
-GreensockDraggableController.prototype._onDragStart = function() {
+GreensockDraggableController.prototype._onDragStart = function(e) {
+
+    this._initialDragMouseEvent = e;
+
     if (this.onDragStart) {
         this.onDragStart.call();
     }
 };
 
-GreensockDraggableController.prototype._onDrag = function() {
+GreensockDraggableController.prototype._onDrag = function(e) {
+
+    this._currentPosition = this._getGestureCoordinates(e).x;
+
     if (this.onDrag) {
         this.onDrag.call();
     }
 };
 
-GreensockDraggableController.prototype._onDragEnd = function() {
+GreensockDraggableController.prototype._onDragEnd = function(e) {
 
-    console.log(this._draggable.vars);
+    var endPosition = this._getGestureCoordinates(e).x;
+    var dLeft = endPosition - this._currentPosition;
+    console.log('_currentPosition:' + this._currentPosition)
+    console.log('endPosition:' + endPosition)
+    console.log('dLeft:' + dLeft);
+
+    TweenLite.to(this._$draggableContainer, 0.5, {
+        left: dLeft * 3,
+        ease: Power4.easeOut
+    });
+
     if (this.onDragEnd) {
         this.onDragEnd.call();
     }
+};
+
+GreensockDraggableController.prototype._getGestureCoordinates = function(gestureEvent) {
+
+    var coordinates = {x: 0, y: 0};
+    if (gestureEvent.type == 'touchmove' || gestureEvent.type == 'touchend') {
+        if(gestureEvent.targetTouches && gestureEvent.targetTouches.length) {
+            var touch = gestureEvent.targetTouches[0];
+            coordinates.x = touch.pageX;
+            coordinates.y = touch.pageY;
+        }else if(gestureEvent.changedTouches && gestureEvent.changedTouches.length) {
+            var touch = gestureEvent.changedTouches[0];
+            coordinates.x = touch.pageX;
+            coordinates.y = touch.pageY;
+        }
+    }else if (gestureEvent.type == 'mousemove' || gestureEvent.type == 'mouseup') {
+        coordinates.x = gestureEvent.x;
+        coordinates.y = gestureEvent.y;
+    }
+
+    return coordinates;
 };
