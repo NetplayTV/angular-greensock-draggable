@@ -2,6 +2,7 @@ var module = angular.module("ngGreensockDraggable", [])
 
 /**
  * Defines the component
+ * see https://greensock.com/docs/#/HTML5/GSAP/Utils/Draggable/ for more informations.
  */
 module.component('ngGreensockDraggable', {
     scope: {},
@@ -15,6 +16,8 @@ module.component('ngGreensockDraggable', {
         onDragStart: '&?',
         onDrag: '&?',
         onDragEnd: '&?',
+        onRelease: '&?',
+        onClick: '&?',
     },
     transclude: true,
     controller: GreensockDraggableController,
@@ -52,7 +55,10 @@ GreensockDraggableController.prototype.$onInit = function () {
         onPress: this._onPress.bind(this),
         onDragStart: this._onDragStart.bind(this),
         onDrag: this._onDrag.bind(this),
-        onDragEnd: this._onDragEnd.bind(this)
+        onDragEnd: this._onDragEnd.bind(this),
+        onRelease: this._onRelease.bind(this),
+        onLockAxis: this._onLockAxis.bind(this),
+        onClick: this._onClick.bind(this),
     });
 
     this._$draggableContainer = this.$element[0].getElementsByClassName('draggableContainer');
@@ -70,12 +76,7 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
                 this._draggable.vars.bounds = currentBounds;
             }else {
                 this._draggable.vars.bounds = {};
-                if (currentBounds.hasOwnProperty('minX')) {
-                    this._draggable.vars.bounds.minX = currentBounds.minX;
-                }
-                if (currentBounds.hasOwnProperty('maxX')) {
-                    this._draggable.vars.bounds.maxX = currentBounds.maxX;
-                }
+                this._draggable.vars.bounds = currentBounds;
             }
         }
     }
@@ -83,8 +84,6 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
 
 
 GreensockDraggableController.prototype._onPress = function(e) {
-
-    this._initialMousedownEvent = e;
 
     if (this.onPress) {
         this.onPress.call();
@@ -106,6 +105,25 @@ GreensockDraggableController.prototype._onDrag = function(e) {
 
     if (this.onDrag) {
         this.onDrag.call();
+    }
+};
+
+GreensockDraggableController.prototype._onRelease = function(e) {
+
+    if (this.onRelease) {
+        this.onRelease.call();
+    }
+};
+GreensockDraggableController.prototype._onLockAxis = function(e) {
+
+    if (this.onLockAxis) {
+        this.onLockAxis.call();
+    }
+};
+GreensockDraggableController.prototype._onClick = function(e) {
+
+    if (this.onClick) {
+        this.onClick.call();
     }
 };
 

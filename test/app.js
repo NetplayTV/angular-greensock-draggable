@@ -32,4 +32,13 @@ MainController.prototype.onDrag = function() {
 MainController.prototype.onDragEnd = function() {
     console.log('onDragEnd');
 }
+MainController.prototype.onRelease = function() {
+    console.log('onRelease');
+}
+MainController.prototype.onLockAxis = function() {
+    console.log('onLockAxis');
+}
+MainController.prototype.onClick = function() {
+    console.log('onClick');
+}
 app.controller('MainController', MainController);
