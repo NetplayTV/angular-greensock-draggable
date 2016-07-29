@@ -1,13 +1,12 @@
 var module = angular.module("ngGreensockDraggable", [])
 
 /**
- * Defines the component
- * see https://greensock.com/docs/#/HTML5/GSAP/Utils/Draggable/ for more informations.
+ * Defines the Component
+ * For more informations, see https://greensock.com/docs/#/HTML5/GSAP/Utils/Draggable/
  */
 module.component('ngGreensockDraggable', {
     scope: {},
     bindings: {
-        //May be x | y | x,y | rotation | scroll | scrollTop | scrollLeft | top | left | top,left
         type: '@',
         edgeResistance: '@?',
         bounds: '<?',
@@ -22,32 +21,56 @@ module.component('ngGreensockDraggable', {
     transclude: true,
     controller: GreensockDraggableController,
     template: `
-<div class="draggableContainer" style="position: absolute;">
+<div class="ngDraggable" style="position: absolute;">
     <div ng-transclude></div>
 </div>`
 });
 
+
+
 /**
- * Defines the controller
+ * Defines the Controller
  */
 function GreensockDraggableController($element) {
 
+    /**
+     * Component Root HTMLElement
+     */
     this.$element = $element;
 
-    this._$draggableContainer = null;
+    /**
+     * Draggable HTMLElement
+     * @type {null}
+     * @private
+     */
+    this._$draggableHTMLElement = null;
 
-    this._initialMousedownEvent = {};
-    this._initialDragMouseEvent = {};
-    this._currentPosition = {};
+    /**
+     * Draggable Object (applied to _$draggableHTMLElement)
+     * @type {null}
+     * @private
+     */
     this._draggable = null;
-    this._dYThreshold = 20;
-    this._chipToDrag = null;
+
+
+    /**
+     * Draggable Position on drag event
+     * @type {{}}
+     * @private
+     */
+    this._currentCoordinates = {};
+
 }
 
 GreensockDraggableController.prototype.$onInit = function () {
     console.log('$onInit');
 
-    Draggable.create('.draggableContainer', {
+    //set the draggable HTMLElement
+    this._$draggableHTMLElement = this.$element[0].getElementsByClassName('ngDraggable');
+    console.log(this._$draggableHTMLElement);
+
+    //create the draggable object
+    Draggable.create('.ngDraggable', {
         type: this.type,
         edgeResistance: this.edgeResistance,
         bounds: this.bounds,
@@ -61,13 +84,11 @@ GreensockDraggableController.prototype.$onInit = function () {
         onClick: this._onClick.bind(this),
     });
 
-    this._$draggableContainer = this.$element[0].getElementsByClassName('draggableContainer');
-
-    console.log(this._draggableContainer);
-    this._draggable = Draggable.get('.draggableContainer');
+    this._draggable = Draggable.get('.ngDraggable');
 }
 
 GreensockDraggableController.prototype.$onChanges = function (changes) {
+
     //Update the draggable bounds
     if (this._draggable) {
         if ( changes.hasOwnProperty('bounds')) {
@@ -81,39 +102,6 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
         }
     }
 }
-
-
-GreensockDraggableController.prototype._onPress = function(e) {
-
-    if (this.onPress) {
-        this.onPress.call();
-    }
-};
-
-GreensockDraggableController.prototype._onDragStart = function(e) {
-
-    this._initialDragMouseEvent = e;
-
-    if (this.onDragStart) {
-        this.onDragStart.call();
-    }
-};
-
-GreensockDraggableController.prototype._onDrag = function(e) {
-
-    this._currentPosition = this._getGestureCoordinates(e).x;
-
-    if (this.onDrag) {
-        this.onDrag.call();
-    }
-};
-
-GreensockDraggableController.prototype._onRelease = function(e) {
-
-    if (this.onRelease) {
-        this.onRelease.call();
-    }
-};
 GreensockDraggableController.prototype._onLockAxis = function(e) {
 
     if (this.onLockAxis) {
@@ -126,24 +114,57 @@ GreensockDraggableController.prototype._onClick = function(e) {
         this.onClick.call();
     }
 };
+GreensockDraggableController.prototype._onPress = function(e) {
 
+    if (this.onPress) {
+        this.onPress.call();
+    }
+};
+
+GreensockDraggableController.prototype._onDragStart = function(e) {
+
+    if (this.onDragStart) {
+        this.onDragStart.call();
+    }
+};
+
+GreensockDraggableController.prototype._onDrag = function(e) {
+
+    this._currentCoordinates = this._getGestureCoordinates(e);
+
+    if (this.onDrag) {
+        this.onDrag.call();
+    }
+};
+GreensockDraggableController.prototype._onRelease = function(e) {
+
+    if (this.onRelease) {
+        this.onRelease.call();
+    }
+};
 GreensockDraggableController.prototype._onDragEnd = function(e) {
 
-    var endPosition = this._getGestureCoordinates(e).x;
-    var dLeft = endPosition - this._currentPosition;
-    console.log('_currentPosition:' + this._currentPosition)
-    console.log('endPosition:' + endPosition)
+    var coordinatesAtEnd = this._getGestureCoordinates(e);
+    var dLeft = coordinatesAtEnd.x - this._currentCoordinates.x;
+    console.log('_currentCoordinates:' + this._currentCoordinates)
+    console.log('coordinatesAtEnd:' + coordinatesAtEnd)
     console.log('dLeft:' + dLeft);
 
-    TweenLite.to(this._$draggableContainer, 0.5, {
+    TweenLite.to(this._$draggableHTMLElement, 0.5, {
         left: dLeft * 3,
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
+        onUpdate: this._onTweenUpdate.bind(this)
     });
 
     if (this.onDragEnd) {
         this.onDragEnd.call();
     }
 };
+
+GreensockDraggableController.prototype._onTweenUpdate = function() {
+    console.log('_onTweenUpdate');
+
+}
 
 GreensockDraggableController.prototype._getGestureCoordinates = function(gestureEvent) {
 
