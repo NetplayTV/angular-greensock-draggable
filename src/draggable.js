@@ -8,7 +8,7 @@ module.component('ngGreensockDraggable', {
     scope: {},
     bindings: {
         type: '@',
-        edgeResistance: '@?',
+        edgeResistance: '=?',
         bounds: '<?',
         throwProps: '=?',
         onPress: '&?',
@@ -59,6 +59,8 @@ function GreensockDraggableController($element) {
      * @private
      */
     this._currentCoordinates = {};
+
+    this._resistance = 0;
 
 }
 
@@ -146,12 +148,13 @@ GreensockDraggableController.prototype._onDragEnd = function(e) {
 
     var coordinatesAtEnd = this._getGestureCoordinates(e);
     var dLeft = coordinatesAtEnd.x - this._currentCoordinates.x;
-    console.log('_currentCoordinates:' + this._currentCoordinates)
-    console.log('coordinatesAtEnd:' + coordinatesAtEnd)
+    var dTop = coordinatesAtEnd.y - this._currentCoordinates.y;
     console.log('dLeft:' + dLeft);
+    console.log('dTop:' + dTop);
 
-    TweenLite.to(this._$draggableHTMLElement, 0.5, {
+    TweenLite.to(this._$draggableHTMLElement, 1, {
         left: dLeft * 3,
+        top: dTop * 3,
         ease: Power4.easeOut,
         onUpdate: this._onTweenUpdate.bind(this)
     });
@@ -162,7 +165,6 @@ GreensockDraggableController.prototype._onDragEnd = function(e) {
 };
 
 GreensockDraggableController.prototype._onTweenUpdate = function() {
-    console.log('_onTweenUpdate');
 
 }
 

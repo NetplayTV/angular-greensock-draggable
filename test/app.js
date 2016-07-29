@@ -8,16 +8,20 @@ var app = angular.module('DemoApp', [
  */
 function MainController($timeout) {
 
+    var self = this;
+
+    //set the bounds
     this.customBounds = document.getElementsByClassName('container');
 
-    var self = this;
-    $timeout(function() {
-        self.customBounds = {minX:0, maxX: 100};
-    }, 5000);
-
-    $timeout(function() {
-        self.customBounds = document.getElementsByClassName('container');
-    }, 10000)
+    // //set new bounds after 5 seconds
+    // $timeout(function() {
+    //     self.customBounds = {minX:0, maxX: 100};
+    // }, 5000);
+    //
+    // //set new bounds after 10 seconds
+    // $timeout(function() {
+    //     self.customBounds = document.getElementsByClassName('container');
+    // }, 10000)
 }
 
 MainController.prototype.onPress = function() {
