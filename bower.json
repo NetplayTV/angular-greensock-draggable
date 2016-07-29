@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/NetplayTV/angular-greensock-draggable/issues"
   },
-  "homepage": "https://github.com/NetplayTV/angular-greensock-draggable#readme",
+  "homepage": "https://github.com/NetplayTV/angular-greensock-draggable#readme"
   "dependencies": {
     "angular": ">=1.5"
   }
