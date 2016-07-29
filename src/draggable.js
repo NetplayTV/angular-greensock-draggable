@@ -11,6 +11,7 @@ module.component('ngGreensockDraggable', {
         edgeResistance: '=?',
         bounds: '<?',
         throwProps: '=?',
+        throw: '=?', // Custom throw effect (beta). To use it, make sure that throwProps is not set to true
         onPress: '&?',
         onDragStart: '&?',
         onDrag: '&?',
@@ -58,9 +59,7 @@ function GreensockDraggableController($element) {
      * @type {{}}
      * @private
      */
-    this._currentCoordinates = {};
-
-    this._resistance = 0;
+    this._dragCoordinates = {};
 
 }
 
@@ -69,7 +68,6 @@ GreensockDraggableController.prototype.$onInit = function () {
 
     //set the draggable HTMLElement
     this._$draggableHTMLElement = this.$element[0].getElementsByClassName('ngDraggable');
-    console.log(this._$draggableHTMLElement);
 
     //create the draggable object
     Draggable.create('.ngDraggable', {
@@ -125,6 +123,8 @@ GreensockDraggableController.prototype._onPress = function(e) {
 
 GreensockDraggableController.prototype._onDragStart = function(e) {
 
+    this._dragCoordinates = [];
+
     if (this.onDragStart) {
         this.onDragStart.call();
     }
@@ -132,7 +132,7 @@ GreensockDraggableController.prototype._onDragStart = function(e) {
 
 GreensockDraggableController.prototype._onDrag = function(e) {
 
-    this._currentCoordinates = this._getGestureCoordinates(e);
+    this._dragCoordinates.push(this._getGestureCoordinates(e));
 
     if (this.onDrag) {
         this.onDrag.call();
@@ -146,32 +146,65 @@ GreensockDraggableController.prototype._onRelease = function(e) {
 };
 GreensockDraggableController.prototype._onDragEnd = function(e) {
 
-    var coordinatesAtEnd = this._getGestureCoordinates(e);
-    var dLeft = coordinatesAtEnd.x - this._currentCoordinates.x;
-    var dTop = coordinatesAtEnd.y - this._currentCoordinates.y;
-    console.log('dLeft:' + dLeft);
-    console.log('dTop:' + dTop);
+    if (this.throw && this.throwProps == false) {
 
-    TweenLite.to(this._$draggableHTMLElement, 1, {
-        left: dLeft * 3,
-        top: dTop * 3,
-        ease: Power4.easeOut,
-        onUpdate: this._onTweenUpdate.bind(this)
-    });
+        //get relevant coordinates to calculate the delta
+        var relevantCoordinates = this._dragCoordinates[this._dragCoordinates.length - 1];
+        if (this._dragCoordinates.length > 1) {
+            relevantCoordinates = this._dragCoordinates[this._dragCoordinates.length - 2];
+        }
+
+        var coordinatesAtEnd = this._getGestureCoordinates(e);
+        var dX = coordinatesAtEnd.x - relevantCoordinates.x;
+        var dY = coordinatesAtEnd.y - relevantCoordinates.y;
+
+        TweenLite.to(this._$draggableHTMLElement, 1, {
+            x: "+=" + (dX * 3),
+            y: "+=" + (dY * 3),
+            ease: Power4.easeOut,
+            onUpdate: this._onThrownUpdate.bind(this)
+        });
+    }
+
 
     if (this.onDragEnd) {
         this.onDragEnd.call();
     }
 };
 
-GreensockDraggableController.prototype._onTweenUpdate = function() {
+GreensockDraggableController.prototype._onThrownUpdate = function() {
 
+    //constraint maxX
+    if (this._draggable.x > this._draggable.maxX) {
+        TweenLite.set(this._$draggableHTMLElement,{ x: this._draggable.maxX} );
+
+    //constraint minX
+    }else if (this._draggable.x < this._draggable.minX) {
+        TweenLite.set(this._$draggableHTMLElement,{ x: this._draggable.minX} );
+
+    //constraint maxY
+    }else if (this._draggable.y > this._draggable.maxY) {
+        TweenLite.set(this._$draggableHTMLElement,{ y: this._draggable.maxY} );
+
+    //constraint minY
+    }else if (this._draggable.y < this._draggable.minY) {
+        TweenLite.set(this._$draggableHTMLElement, {y: this._draggable.minY});
+    }
+
+    this._draggable.update();
 }
 
+/**
+ * Returns the gesture coordinates {x,y} regarding the gesture event type (MouseEvent, TouchEvent)
+ * @param gestureEvent
+ * @returns {{x: number, y: number}}
+ * @private
+ */
 GreensockDraggableController.prototype._getGestureCoordinates = function(gestureEvent) {
 
     var coordinates = {x: 0, y: 0};
-    if (gestureEvent.type == 'touchmove' || gestureEvent.type == 'touchend') {
+    if (gestureEvent instanceof TouchEvent) {
+
         if(gestureEvent.targetTouches && gestureEvent.targetTouches.length) {
             var touch = gestureEvent.targetTouches[0];
             coordinates.x = touch.pageX;
@@ -181,7 +214,7 @@ GreensockDraggableController.prototype._getGestureCoordinates = function(gesture
             coordinates.x = touch.pageX;
             coordinates.y = touch.pageY;
         }
-    }else if (gestureEvent.type == 'mousemove' || gestureEvent.type == 'mouseup') {
+    }else if (gestureEvent instanceof MouseEvent) {
         coordinates.x = gestureEvent.x;
         coordinates.y = gestureEvent.y;
     }
