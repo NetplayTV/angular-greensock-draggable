@@ -64,6 +64,7 @@ Example:
     type="x,y"
     edge-resistance="0.65"
     bounds="main.customBounds"
+    z-index-boost="false"
     throw-props="false"
     throw="true"
     on-press="main.onPress()"

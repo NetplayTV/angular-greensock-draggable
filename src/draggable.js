@@ -10,6 +10,7 @@ module.component('ngGreensockDraggable', {
         type: '@',
         edgeResistance: '=?',
         bounds: '<?',
+        zIndexBoost: '=?',
         throwProps: '=?',
         throw: '=?', // Custom throw effect (beta). To use it, make sure that throwProps is not set to true
         onPress: '&?',
@@ -64,7 +65,6 @@ function GreensockDraggableController($element) {
 }
 
 GreensockDraggableController.prototype.$onInit = function () {
-    console.log('$onInit');
 
     //set the draggable HTMLElement
     this._$draggableHTMLElement = this.$element[0].getElementsByClassName('ngDraggable');
@@ -75,6 +75,7 @@ GreensockDraggableController.prototype.$onInit = function () {
         edgeResistance: this.edgeResistance,
         bounds: this.bounds,
         throwProps: this.throwProps,
+        zIndexBoost: this.zIndexBoost,
         onPress: this._onPress.bind(this),
         onDragStart: this._onDragStart.bind(this),
         onDrag: this._onDrag.bind(this),

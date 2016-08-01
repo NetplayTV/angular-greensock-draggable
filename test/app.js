@@ -25,24 +25,24 @@ function MainController($timeout) {
 }
 
 MainController.prototype.onPress = function() {
-    console.log('onPress');
+    console.log('MainController.onPress');
 }
 MainController.prototype.onDragStart = function() {
-    console.log('onDragStart');
+    console.log('MainController.onDragStart');
 }
 MainController.prototype.onDrag = function() {
-    console.log('onDrag');
+    console.log('MainController.onDrag');
 }
 MainController.prototype.onDragEnd = function() {
-    console.log('onDragEnd');
+    console.log('MainController.onDragEnd');
 }
 MainController.prototype.onRelease = function() {
-    console.log('onRelease');
+    console.log('MainController.onRelease');
 }
 MainController.prototype.onLockAxis = function() {
-    console.log('onLockAxis');
+    console.log('MainController.onLockAxis');
 }
 MainController.prototype.onClick = function() {
-    console.log('onClick');
+    console.log('MainController.onClick');
 }
 app.controller('MainController', MainController);
