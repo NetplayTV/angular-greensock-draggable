@@ -23,6 +23,24 @@ var app = angular.module('yourModule', [
 ]);
 ```
 
+4. (Optional) If you are using ESLint, you have to specify the plugins in .eslintrc file
+```javascript
+{
+  "extends": "eslint:recommended",
+  "plugins": ["angular" , "Draggable" , "TweenLite"],
+  "env": {
+    "browser": true,
+    "jasmine": true
+  },
+  "globals": {
+    "angular": true,
+    "module": true,
+    "inject": true
+  }
+}
+
+```
+
 ##Component
 The component allows you to drag some objects vertically, horizontally or both.
 
