@@ -154,10 +154,18 @@ GreensockDraggableController.prototype._onDragEnd = function(e) {
             relevantCoordinates = this._dragCoordinates[this._dragCoordinates.length - 2];
         }
 
+        //computes the delta
+        var dX = 0;
+        var dY = 0;
         var coordinatesAtEnd = this._getGestureCoordinates(e);
-        var dX = coordinatesAtEnd.x - relevantCoordinates.x;
-        var dY = coordinatesAtEnd.y - relevantCoordinates.y;
+        if (this.type === 'x' || this.type === 'x,y') {
+            dX = coordinatesAtEnd.x - relevantCoordinates.x;
+        }
+        if (this.type === 'y' || this.type === 'x,y') {
+            dY = coordinatesAtEnd.y - relevantCoordinates.y;
+        }
 
+        //animation
         TweenLite.to(this._$draggableHTMLElement, 1, {
             x: "+=" + (dX * 3),
             y: "+=" + (dY * 3),
