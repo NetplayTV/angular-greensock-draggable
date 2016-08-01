@@ -8,6 +8,7 @@ module.component('ngGreensockDraggable', {
     scope: {},
     bindings: {
         type: '@',
+        enable: '<?',
         edgeResistance: '=?',
         bounds: '<?',
         zIndexBoost: '=?',
@@ -72,6 +73,7 @@ GreensockDraggableController.prototype.$onInit = function () {
     //create the draggable object
     Draggable.create('.ngDraggable', {
         type: this.type,
+        enable: this.enable,
         edgeResistance: this.edgeResistance,
         bounds: this.bounds,
         throwProps: this.throwProps,
@@ -99,6 +101,14 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
             }else {
                 this._draggable.vars.bounds = {};
                 this._draggable.vars.bounds = currentBounds;
+            }
+        }
+
+        if ( changes.hasOwnProperty('enable')) {
+            if (changes.enable.currentValue) {
+                this._draggable.enable();
+            }else {
+                this._draggable.disable();
             }
         }
     }

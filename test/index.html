@@ -20,9 +20,9 @@
 
         <div class="container">
 
-
             <ng-greensock-draggable
                     type="x,y"
+                    enable="enableDrag"
                     edge-resistance="0.65"
                     bounds="main.customBounds"
                     z-index-boost="false"
@@ -44,5 +44,7 @@
         </div>
     </div>
 
+
+    <button ng-click="enableDrag=!enableDrag">Enable/Disable Drag</button>
 </body>
 </html>

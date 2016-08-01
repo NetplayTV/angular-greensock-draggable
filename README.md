@@ -56,12 +56,15 @@ The component provides some **callbacks**:
 - **onLockAxis**
 - **onClick**
 
+The drag can be **enabled** / **disabled** on the fly by updating the value of the 'enable' property.
+
 For more informations about the Draggable configuration, navigate to the [Greensock Draggable Docs](https://greensock.com/docs/#/HTML5/GSAP/Utils/Draggable/)
 
 Example:
 ```html
  <ng-greensock-draggable
     type="x,y"
+    enable="enableDrag"
     edge-resistance="0.65"
     bounds="main.customBounds"
     z-index-boost="false"
