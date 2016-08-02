@@ -50,7 +50,7 @@ Otherwise, this component contains a throw effect (in beta version). To use it, 
 The component provides some **callbacks**:
 - **onPress**
 - **onDragStart**
-- **onDrag**
+- **onDrag** (this callback returns the delta dX, dY between the dragStart and the drag coordinates)
 - **onDragEnd**
 - **onRelease**
 - **onLockAxis**
@@ -72,7 +72,7 @@ Example:
     throw="true"
     on-press="main.onPress()"
     on-drag-start="main.onDragStart()"
-    on-drag="main.onDrag()"
+    on-drag="main.onDrag(dX, dY)"
     on-drag-end="main.onDragEnd()"
     on-release="main.onRelease()"
     on-lock-axis="main.onLockAxis()"

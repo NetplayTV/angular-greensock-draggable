@@ -135,9 +135,10 @@ GreensockDraggableController.prototype._onPress = function(e) {
 GreensockDraggableController.prototype._onDragStart = function(e) {
 
     this._dragCoordinates = [];
+    this._dragCoordinates.push(this._getGestureCoordinates(e));
 
     if (this.onDragStart) {
-        this.onDragStart.call();
+        this.onDragStart();
     }
 };
 
@@ -145,8 +146,14 @@ GreensockDraggableController.prototype._onDrag = function(e) {
 
     this._dragCoordinates.push(this._getGestureCoordinates(e));
 
+    var firstCoordinates = this._dragCoordinates[0];
+    var lastCoordinates = this._dragCoordinates[this._dragCoordinates.length - 1];
+
+    var dX = lastCoordinates.x - firstCoordinates.x;
+    var dY = lastCoordinates.y - firstCoordinates.y;
+
     if (this.onDrag) {
-        this.onDrag.call();
+        this.onDrag({dX: dX, dY: dY});
     }
 };
 GreensockDraggableController.prototype._onRelease = function(e) {

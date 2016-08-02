@@ -30,8 +30,8 @@ MainController.prototype.onPress = function() {
 MainController.prototype.onDragStart = function() {
     console.log('MainController.onDragStart');
 }
-MainController.prototype.onDrag = function() {
-    console.log('MainController.onDrag');
+MainController.prototype.onDrag = function(dX, dY) {
+    console.log('MainController.onDrag' , dX , dY);
 }
 MainController.prototype.onDragEnd = function() {
     console.log('MainController.onDragEnd');
