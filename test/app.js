@@ -24,25 +24,25 @@ function MainController($timeout) {
     // }, 10000)
 }
 
-MainController.prototype.onPress = function() {
-    console.log('MainController.onPress');
-}
-MainController.prototype.onDragStart = function() {
-    console.log('MainController.onDragStart');
-}
-MainController.prototype.onDrag = function(dX, dY) {
-    console.log('MainController.onDrag' , dX , dY);
-}
-MainController.prototype.onDragEnd = function() {
-    console.log('MainController.onDragEnd');
-}
-MainController.prototype.onRelease = function() {
-    console.log('MainController.onRelease');
-}
+MainController.prototype.onPress = function(event) {
+    console.log('MainController.onPress', event);
+};
+MainController.prototype.onDragStart = function(event) {
+    console.log('MainController.onDragStart', event);
+};
+MainController.prototype.onDrag = function(event, dX, dY) {
+    console.log('MainController.onDrag' , event, dX , dY);
+};
+MainController.prototype.onDragEnd = function(event) {
+    console.log('MainController.onDragEnd', event);
+};
+MainController.prototype.onRelease = function(event) {
+    console.log('MainController.onRelease', event);
+};
 MainController.prototype.onLockAxis = function() {
     console.log('MainController.onLockAxis');
-}
-MainController.prototype.onClick = function() {
-    console.log('MainController.onClick');
-}
+};
+MainController.prototype.onClick = function(event) {
+    console.log('MainController.onClick', event);
+};
 app.controller('MainController', MainController);

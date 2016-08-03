@@ -50,11 +50,14 @@ Otherwise, this component contains a throw effect (in beta version). To use it, 
 The component provides some **callbacks**:
 - **onPress**
 - **onDragStart**
-- **onDrag** (this callback returns the delta dX, dY between the dragStart and the drag coordinates)
+- **onDrag** (this callback returns also the delta dX, dY between the dragStart and the drag coordinates)
 - **onDragEnd**
 - **onRelease**
 - **onLockAxis**
 - **onClick**
+
+All these callbacks returns the gesture event (MouseEvent, TouchEvent)
+
 
 The drag can be **enabled** / **disabled** on the fly by updating the value of the 'enable' property.
 
@@ -70,13 +73,13 @@ Example:
     z-index-boost="false"
     throw-props="false"
     throw="true"
-    on-press="main.onPress()"
-    on-drag-start="main.onDragStart()"
-    on-drag="main.onDrag(dX, dY)"
-    on-drag-end="main.onDragEnd()"
-    on-release="main.onRelease()"
+    on-press="main.onPress(event)"
+    on-drag-start="main.onDragStart(event)"
+    on-drag="main.onDrag(event, dX, dY)"
+    on-drag-end="main.onDragEnd(event)"
+    on-release="main.onRelease(event)"
     on-lock-axis="main.onLockAxis()"
-    on-click="main.onClick()">
+    on-click="main.onClick(event)">
     
     <div>
         Your draggable element

@@ -116,19 +116,19 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
 GreensockDraggableController.prototype._onLockAxis = function(e) {
 
     if (this.onLockAxis) {
-        this.onLockAxis.call();
+        this.onLockAxis();
     }
 };
 GreensockDraggableController.prototype._onClick = function(e) {
 
     if (this.onClick) {
-        this.onClick.call();
+        this.onClick({event: e});
     }
 };
 GreensockDraggableController.prototype._onPress = function(e) {
 
     if (this.onPress) {
-        this.onPress.call();
+        this.onPress({event: e});
     }
 };
 
@@ -138,7 +138,7 @@ GreensockDraggableController.prototype._onDragStart = function(e) {
     this._dragCoordinates.push(this._getGestureCoordinates(e));
 
     if (this.onDragStart) {
-        this.onDragStart();
+        this.onDragStart({event: e});
     }
 };
 
@@ -153,13 +153,13 @@ GreensockDraggableController.prototype._onDrag = function(e) {
     var dY = lastCoordinates.y - firstCoordinates.y;
 
     if (this.onDrag) {
-        this.onDrag({dX: dX, dY: dY});
+        this.onDrag({event: e, dX: dX, dY: dY});
     }
 };
 GreensockDraggableController.prototype._onRelease = function(e) {
 
     if (this.onRelease) {
-        this.onRelease.call();
+        this.onRelease({event: e});
     }
 };
 GreensockDraggableController.prototype._onDragEnd = function(e) {
@@ -194,7 +194,7 @@ GreensockDraggableController.prototype._onDragEnd = function(e) {
 
 
     if (this.onDragEnd) {
-        this.onDragEnd.call();
+        this.onDragEnd({event: e});
     }
 };
 
