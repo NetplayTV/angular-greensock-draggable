@@ -7,6 +7,7 @@ var module = angular.module("ngGreensockDraggable", [])
 module.component('ngGreensockDraggable', {
     scope: {},
     bindings: {
+        identifier: '@',
         type: '@',
         enable: '<?',
         edgeResistance: '=?',
@@ -67,27 +68,35 @@ function GreensockDraggableController($element) {
 
 GreensockDraggableController.prototype.$onInit = function () {
 
-    //set the draggable HTMLElement
-    this._$draggableHTMLElement = this.$element[0].getElementsByClassName('ngDraggable');
+    if (this.identifier) {
 
-    //create the draggable object
-    Draggable.create('.ngDraggable', {
-        type: this.type,
-        enable: this.enable,
-        edgeResistance: this.edgeResistance,
-        bounds: this.bounds,
-        throwProps: this.throwProps,
-        zIndexBoost: this.zIndexBoost,
-        onPress: this._onPress.bind(this),
-        onDragStart: this._onDragStart.bind(this),
-        onDrag: this._onDrag.bind(this),
-        onDragEnd: this._onDragEnd.bind(this),
-        onRelease: this._onRelease.bind(this),
-        onLockAxis: this._onLockAxis.bind(this),
-        onClick: this._onClick.bind(this),
-    });
+        //set the draggable HTMLElement
+        this._$draggableHTMLElement = angular.element(this.$element[0].getElementsByClassName('ngDraggable'));
+        this._$draggableHTMLElement.addClass(this.identifier);
 
-    this._draggable = Draggable.get('.ngDraggable');
+        var draggableCssSelector = '.ngDraggable.' + this.identifier;
+
+        //create the draggable object
+        Draggable.create(draggableCssSelector, {
+            type: this.type,
+            enable: this.enable,
+            edgeResistance: this.edgeResistance,
+            bounds: this.bounds,
+            throwProps: this.throwProps,
+            zIndexBoost: this.zIndexBoost,
+            onPress: this._onPress.bind(this),
+            onDragStart: this._onDragStart.bind(this),
+            onDrag: this._onDrag.bind(this),
+            onDragEnd: this._onDragEnd.bind(this),
+            onRelease: this._onRelease.bind(this),
+            onLockAxis: this._onLockAxis.bind(this),
+            onClick: this._onClick.bind(this),
+        });
+
+        this._draggable = Draggable.get(draggableCssSelector);
+    }else{
+        console.error('An identifier has to be defined');
+    }
 }
 
 GreensockDraggableController.prototype.$onChanges = function (changes) {

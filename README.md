@@ -66,6 +66,7 @@ For more informations about the Draggable configuration, navigate to the [Greens
 Example:
 ```html
  <ng-greensock-draggable
+    identifier="myDraggableElement1"
     type="x,y"
     enable="enableDrag"
     edge-resistance="0.65"
