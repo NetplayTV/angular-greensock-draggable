@@ -24,6 +24,9 @@ function MainController($timeout) {
     // }, 10000)
 }
 
+MainController.prototype.onInit = function() {
+    console.log('MainController.onInit');
+};
 MainController.prototype.onPress = function(event) {
     console.log('MainController.onPress', event);
 };

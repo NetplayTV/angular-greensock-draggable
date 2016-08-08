@@ -74,6 +74,7 @@ Example:
     z-index-boost="false"
     throw-props="false"
     throw="true"
+    on-init="main.onInit()"
     on-press="main.onPress(event)"
     on-drag-start="main.onDragStart(event)"
     on-drag="main.onDrag(event, dX, dY)"

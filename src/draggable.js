@@ -15,6 +15,7 @@ module.component('ngGreensockDraggable', {
         zIndexBoost: '=?',
         throwProps: '=?',
         throw: '=?', // Custom throw effect (beta). To use it, make sure that throwProps is not set to true
+        onInit: '&?',
         onPress: '&?',
         onDragStart: '&?',
         onDrag: '&?',
@@ -96,6 +97,10 @@ GreensockDraggableController.prototype.$onInit = function () {
         this._draggable = Draggable.get(draggableCssSelector);
     }else{
         console.error('An identifier has to be defined');
+    }
+
+    if (this.onInit) {
+        this.onInit();
     }
 }
 
