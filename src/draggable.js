@@ -125,7 +125,6 @@ GreensockDraggableController.prototype.$onChanges = function (changes) {
     }
 }
 GreensockDraggableController.prototype.$postLink = function () {
-    debugger;
     if (this.postLink) {
         this.postLink();
     }
