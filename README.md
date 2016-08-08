@@ -48,6 +48,7 @@ ThrowProps can be used by setting **'throw-props'** to true.
 Otherwise, this component contains a throw effect (in beta version). To use it, set **'throw'** to true.
 
 The component provides some **callbacks**:
+- **postLink** (called after this controller's element and its children have been linked (transclude included). For more information, see https://docs.angularjs.org/guide/component)
 - **onPress**
 - **onDragStart**
 - **onDrag** (this callback returns also the delta dX, dY between the dragStart and the drag coordinates)
@@ -55,6 +56,7 @@ The component provides some **callbacks**:
 - **onRelease**
 - **onLockAxis**
 - **onClick**
+
 
 All these callbacks returns the gesture event (MouseEvent, TouchEvent)
 
