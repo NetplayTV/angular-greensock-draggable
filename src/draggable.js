@@ -25,10 +25,7 @@ module.component('ngGreensockDraggable', {
     },
     transclude: true,
     controller: GreensockDraggableController,
-    template: `
-<div class="ngDraggable" style="position: absolute;">
-    <div ng-transclude></div>
-</div>`
+    template: '<div class="ngDraggable" style="position: absolute;"><div ng-transclude></div></div>'
 });
 
 
@@ -78,23 +75,25 @@ GreensockDraggableController.prototype.$onInit = function () {
         var draggableCssSelector = '.ngDraggable.' + this.identifier;
 
         //create the draggable object
-        Draggable.create(draggableCssSelector, {
-            type: this.type,
-            enable: this.enable,
-            edgeResistance: this.edgeResistance,
-            bounds: this.bounds,
-            throwProps: this.throwProps,
-            zIndexBoost: this.zIndexBoost,
-            onPress: this._onPress.bind(this),
-            onDragStart: this._onDragStart.bind(this),
-            onDrag: this._onDrag.bind(this),
-            onDragEnd: this._onDragEnd.bind(this),
-            onRelease: this._onRelease.bind(this),
-            onLockAxis: this._onLockAxis.bind(this),
-            onClick: this._onClick.bind(this),
-        });
+        if ('Draggable' in window) {
+            Draggable.create(draggableCssSelector, {
+                type: this.type,
+                enable: this.enable,
+                edgeResistance: this.edgeResistance,
+                bounds: this.bounds,
+                throwProps: this.throwProps,
+                zIndexBoost: this.zIndexBoost,
+                onPress: this._onPress.bind(this),
+                onDragStart: this._onDragStart.bind(this),
+                onDrag: this._onDrag.bind(this),
+                onDragEnd: this._onDragEnd.bind(this),
+                onRelease: this._onRelease.bind(this),
+                onLockAxis: this._onLockAxis.bind(this),
+                onClick: this._onClick.bind(this),
+            });
 
-        this._draggable = Draggable.get(draggableCssSelector);
+            this._draggable = Draggable.get(draggableCssSelector);
+        }
     }else{
         console.error('An identifier has to be defined');
     }
