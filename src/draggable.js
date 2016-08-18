@@ -24,7 +24,7 @@ module.component('ngGreensockDraggable', {
         onClick: '&?',
     },
     transclude: true,
-    controller: GreensockDraggableController,
+    controller: ['$element', GreensockDraggableController],
     template: '<div class="ngDraggable" style="position: absolute;"><div ng-transclude></div></div>'
 });
 
