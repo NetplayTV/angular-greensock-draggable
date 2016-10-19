@@ -72,7 +72,8 @@ GreensockDraggableController.prototype.$onInit = function () {
         this._$draggableHTMLElement = angular.element(this.$element[0].getElementsByClassName('ngDraggable'));
         this._$draggableHTMLElement.addClass(this.identifier);
 
-        var draggableCssSelector = '.ngDraggable.' + this.identifier;
+
+        var draggableCssSelector = '.ngDraggable.' + this.identifier.split(' ').join('.');
 
         //create the draggable object
         if ('Draggable' in window) {
