@@ -41,6 +41,16 @@ var app = angular.module('yourModule', [
 
 ```
 
+## Installation using NPM
+
+```
+npm install angular-greensock-draggable
+```
+or
+```
+yarn add angular-greensock-draggable
+```
+
 ## Component
 The component allows you to drag some objects vertically, horizontally or both.
 
