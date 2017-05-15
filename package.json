@@ -1,5 +1,5 @@
 {
-  "name": "@netplaytv/angular-greensock-draggable",
+  "name": "angular-greensock-draggable",
   "version": "1.0.17",
   "description": "Use Greensock Draggable library directly in Angular ( > 1.5 )",
   "main": "src/draggable.js",
