@@ -72,6 +72,7 @@ Example:
     type="x,y"
     enable="enableDrag"
     edge-resistance="0.65"
+    minimum-movement="5"
     bounds="main.customBounds"
     z-index-boost="false"
     throw-props="false"
