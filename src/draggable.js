@@ -15,6 +15,7 @@
             enable: '<?',
             edgeResistance: '=?',
             bounds: '<?',
+            minimumMovement: '<?',
             zIndexBoost: '=?',
             throwProps: '=?',
             throw: '=?', // Custom throw effect (beta). To use it, make sure that throwProps is not set to true
@@ -84,6 +85,7 @@
                     enable: this.enable,
                     edgeResistance: this.edgeResistance,
                     bounds: this.bounds,
+                    minimumMovement: this.minimumMovement,
                     throwProps: this.throwProps,
                     zIndexBoost: this.zIndexBoost,
                     onPress: this._onPress.bind(this),
