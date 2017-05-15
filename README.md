@@ -4,7 +4,7 @@ Use Greensock Draggable library directly in Angular ( > 1.5 )
 
 
 
-##Installation
+## Installation
 
 1. Import the Greensock Draggable Library
 ```javascript
@@ -41,7 +41,17 @@ var app = angular.module('yourModule', [
 
 ```
 
-##Component
+## Installation using NPM
+
+```
+npm install angular-greensock-draggable
+```
+or
+```
+yarn add angular-greensock-draggable
+```
+
+## Component
 The component allows you to drag some objects vertically, horizontally or both.
 
 ThrowProps can be used by setting **'throw-props'** to true. 
@@ -72,6 +82,7 @@ Example:
     type="x,y"
     enable="enableDrag"
     edge-resistance="0.65"
+    minimum-movement="5"
     bounds="main.customBounds"
     z-index-boost="false"
     throw-props="false"
